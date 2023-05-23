@@ -15,6 +15,7 @@ class Restaurant {
         int ticks=0;
         std::vector<ofImage> people;
         int money =0;
+        int count = 0;
 
     public:
         Restaurant();
@@ -27,6 +28,10 @@ class Restaurant {
         Item* botBread;
         Item* topBread;
         ofImage floor;
+        ofImage plant;
+        ofImage chair;
+        ofImage table;
+        ofImage fire;
         void initItems();
         void initCounters();
         void initClients();
@@ -35,4 +40,10 @@ class Restaurant {
         void tick();
         void render();
         void keyPressed(int key);
+        int getMoney(){return this->money;}
+        int getCount(){return entityManager->count;}
+        void setCount(){entityManager->setCount();}
+        void setMoney(int x){
+            this->money=x;
+        }
 };

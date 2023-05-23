@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "BaseCounter.h"
 
 Player::Player(int x, int y, int width, int height, ofImage sprite, EntityManager* em) : Entity(x, y, width, height, sprite){
 
@@ -18,16 +19,26 @@ Player::Player(int x, int y, int width, int height, ofImage sprite, EntityManage
     
 }
 void Player::tick(){
+    //Phase2_part4
+    //Make it so that the chef is able to move on arrow key presses instead of bouncing
+    //back and forth between the walls.
+
     chefAnim->tick();
+    if (ofGetKeyPressed(OF_KEY_LEFT)) {
+        facing = "left";
+    } else if(ofGetKeyPressed(OF_KEY_RIGHT)){
+        facing = "right";
+    }    
+
     if(facing == "left"){
         x-=speed;
     }else if(facing == "right"){
         x+=speed;
     }
     if(x <= 0){
-        facing = "right";
-    }else if(x + width >= ofGetWidth()){
-        facing = "left";
+        x = 0;
+    } else if(x + width >= ofGetWidth()){
+        x = (ofGetWidth()-width);
     }
 }
 
@@ -54,7 +65,18 @@ void Player::keyPressed(int key){
                 burger->addIngredient(item);
             }
         }
-    }
+    } else if(key == 'u') {
+        BaseCounter* ac = getActiveCounter();
+        if(ac != nullptr){
+            Item* item = ac->getItem();
+            if(item != nullptr){
+                burger->RemoveLastIngredient();
+            }
+        }
+    }  
+    //Phase 2 part 2
+    //Create an Undo button 'u' that removes the last added ingredient from the Burger
+
 }
 BaseCounter* Player::getActiveCounter(){
     for(Entity* e:entityManager->entities){
@@ -70,5 +92,13 @@ void Player::keyReleased(int key) {
 }
 void Player::mousePressed(int x, int y, int button) {
 }
+void Player::removeLastIngredient()
+{
+    burger->RemoveLastIngredient();
+}
 
 void Player::setFacing(string facing){ this->facing = facing; }
+
+void Player::resetBurger(){
+    burger->resetIngredients();
+}

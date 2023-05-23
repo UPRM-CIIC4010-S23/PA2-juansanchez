@@ -2,7 +2,7 @@
 
 void EntityManager::tick(){
     for(unsigned int i=0; i<entities.size(); i++){
-        entities[0]->tick();
+        entities[i]->tick();
     }
     if(firstClient != nullptr){
         firstClient->tick();
@@ -11,26 +11,22 @@ void EntityManager::tick(){
 }
 
 void EntityManager::removeLeavingClients(){
-
-    // Remove all clients that are leaving
-    Client* tempClient = firstClient;
-    Client* prevClient = nullptr;
-    
-    while(tempClient != nullptr){
-        if(tempClient->isLeaving){
-            if(prevClient == nullptr){
-                firstClient = tempClient->nextClient;
-                delete tempClient;
-                tempClient = firstClient;
-            }else{
-                prevClient->nextClient = tempClient->nextClient;
-                delete tempClient;
-                tempClient = prevClient->nextClient;
-            }
-        }else{
-            prevClient = tempClient;
-            tempClient = tempClient->nextClient;
+    if(firstClient != nullptr && firstClient->isLeaving) {
+        count += 1;
         }
+    Client* tempClient = nullptr;
+    while(firstClient != nullptr && firstClient->isLeaving){
+        if(dynamic_cast<Inspector*>(firstClient))
+        {
+            inspector = true;
+            if(dynamic_cast<Inspector*>(firstClient)->getPatience() == 0)
+            {
+                angry = true;
+            }
+        }
+        tempClient = firstClient->nextClient;
+        delete firstClient;
+        firstClient = tempClient;
     }
 }
 void EntityManager::render(){

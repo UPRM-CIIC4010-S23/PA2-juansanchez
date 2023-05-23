@@ -22,4 +22,8 @@ class Player: public Entity{
         BaseCounter* getActiveCounter();
         Burger* getBurger(){ return burger;
         }
+        Burger* getSize() { return getSize();}
+        void removeLastIngredient();
+        void resetBurger();
+        // bool equals(Burger* );
 };

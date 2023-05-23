@@ -15,6 +15,9 @@ void MenuState::tick() {
 void MenuState::render() {
 	ofSetBackgroundColor(230, 230, 250);
 	startButton->render();
+	ofDrawBitmapString("Pickup ingredients by pressing 'e' when player is in front of the counter and serve clients with 's'.",10,(ofGetHeight()/2)+10);
+	ofDrawBitmapString("Move using arrow keys.",10,(ofGetHeight()/2)+20);
+	//*add other functionalities*
 }
 
 void MenuState::keyPressed(int key){

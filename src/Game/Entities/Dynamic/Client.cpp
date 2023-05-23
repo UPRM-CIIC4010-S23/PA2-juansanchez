@@ -7,16 +7,18 @@ Client::~Client(){
     delete burger;
 }
 void Client::render(){
-    burger->render();
-    ofSetColor (255,255,255);
+    ofSetColor(255,255,255);
+    patienceDisplay = floor((2000 - patience) / 7.84);
+    ofSetColor (255,255-patienceDisplay,255-patienceDisplay);
     sprite.draw(x, y, width, height);
+    burger->render();
     if(nextClient != nullptr){
         nextClient->render();
     }
 }
 
 void Client::tick(){
-    patience--;
+    patience-=1;
     burger->setY(y);
     if(patience == 0){
         isLeaving = true;
@@ -27,6 +29,24 @@ void Client::tick(){
 }
 
 int Client::serve(Burger* burger){
-    isLeaving = true;
-    return 10;
+    if(nextClient != nullptr){
+        if(this->burger->equals(burger))
+            {   
+            isLeaving = true;
+            return 10;
+            }
+        else {
+            return nextClient->serve(burger);
+            }
+    } else {
+        if(this->burger->equals(burger))
+        {
+            isLeaving = true;
+            return 10;
+        }
+        else {
+            return -5;
+        }
 }
+}
+    

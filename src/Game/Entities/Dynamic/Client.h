@@ -1,3 +1,4 @@
+#pragma once
 #include "Entity.h"
 #include "Burger.h"
 
@@ -12,9 +13,11 @@ class Client: public Entity{
         void tick();
         void render();
         int serve(Burger*);
+        Burger* getBurger(){return burger;}
         Client* nextClient=nullptr;
         bool isLeaving=false;
-
-
-
+        bool isServed = false;
+        int patienceDisplay = 0;
+        int totalCost = 0;
+        int getPatience(){return this->patience;}
 };
